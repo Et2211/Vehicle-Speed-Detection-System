@@ -1,12 +1,11 @@
 let Tesseract = require('tesseract.js')
 let PythonShell = require('python-shell');
 
-let path = 'imgs/test.jpg'
+let path = 'imgs/test5.jpg'
 let img = process.cwd()
 img = img.replace(/\\/g, "/");
 img = img + "/"
 console.log(img)
-
 
 function findCars(img, path){
   let options = {
@@ -30,8 +29,6 @@ function readImg(img, path){
   let options = {
     args: [img, path]
   };
-   
-  
 
   PythonShell.PythonShell.run('readCams.py', options, function (err) {
     if (err) throw err;    
@@ -40,6 +37,7 @@ function readImg(img, path){
     if (message != 'error') {
       result = JSON.parse(message)
       readChars(result.source, result.img)
+      console.log(result.source + result.img)
     }
 
   });

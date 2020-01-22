@@ -1,1 +1,0 @@
-import {PythonShell} from '/../node_modules/python-shell';
