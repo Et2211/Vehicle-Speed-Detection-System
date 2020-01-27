@@ -38,7 +38,7 @@ for eachObject in detections:
             y2 = eachObject['box_points'][3] 
 
             crop = img[y1: y2, x1: x2]
-            cv2.imshow("results" + str(i), crop)
+            #cv2.imshow("results" + str(i), crop)
             cv2.imwrite(execution_path + "results/result" + str(i) + ".jpg", crop)
             i+=1
 cv2.waitKey(0)

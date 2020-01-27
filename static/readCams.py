@@ -20,8 +20,6 @@ gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) #convert to grey scale
 gray = cv2.bilateralFilter(gray, 11, 17, 17) #Blur to reduce noise
 edged = cv2.Canny(gray, 30, 200) #Perform Edge detection
 
-cv2.imwrite(src_path + "output.jpg", img)
-
 # find contours in the edged image, keep only the largest
 # ones, and initialize the screen contour
 cnts = cv2.findContours(edged.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -62,8 +60,8 @@ new_image = cv2.bitwise_and(img,img,mask=mask)
 Cropped = gray[topx:bottomx+1, topy:bottomy+1]
 
 
-cv2.imshow('image',img)
-cv2.imshow('Cropped',Cropped)
+#cv2.imshow('image',img)
+#cv2.imshow('Cropped',Cropped)
 cv2.imwrite(src_path + "imgs/cropped.png", Cropped)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
