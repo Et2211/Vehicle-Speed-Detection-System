@@ -10,11 +10,8 @@ import sys
 src_path = sys.argv[1]
 image = src_path + sys.argv[2]
 img = cv2.imread(image ,cv2.IMREAD_COLOR)
-
 numOfCar = sys.argv[3]
-print(src_path)
-print(image)
-print(numOfCar)
+
 
 #src_path = 'G:/My Drive/Third year/Final year project/Dev/static/'
 #img = cv2.imread('G:/My Drive/Third year/Final year project/Dev/static/imgs/test8.jpg' ,cv2.IMREAD_COLOR)
