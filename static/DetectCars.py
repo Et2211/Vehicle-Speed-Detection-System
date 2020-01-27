@@ -21,9 +21,12 @@ detections = detector.detectObjectsFromImage(input_image=os.path.join(execution_
 img = cv2.imread(execution_path + image,cv2.IMREAD_COLOR)
 
 i=0
+numOfCars = 0
 
 for eachObject in detections:
     if eachObject["name"] == 'car':
+
+        numOfCars = numOfCars + 1
         offPage = False
         
         for j in range(4):
@@ -42,5 +45,5 @@ for eachObject in detections:
             cv2.imwrite(execution_path + "results/result" + str(i) + ".jpg", crop)
             i+=1
 cv2.waitKey(0)
-returnString = '{"source" : "' + execution_path + '" ,"img" : "imgs/cropped.png"}' 
+returnString = '{"source" : "' + execution_path + '" ,"img" : "results/result", "numOfCars" : "' + str(numOfCars) + '"}' 
 print(returnString)

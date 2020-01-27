@@ -1,15 +1,15 @@
 let Tesseract = require('tesseract.js')
 let PythonShell = require('python-shell');
 
-let path = 'imgs/test5.jpg'
-let img = process.cwd()
-img = img.replace(/\\/g, "/");
-img = img + "/"
-console.log(img)
+let img = 'imgs/test5.jpg'
+let path = process.cwd()
+path = path.replace(/\\/g, "/");
+path = path + "/"
+
 
 function findCars(img, path){
   let options = {
-    args: [img, path]
+    args: [path, img]
   };
   
   PythonShell.PythonShell.run('DetectCars.py', options, function (err) {
@@ -19,34 +19,40 @@ function findCars(img, path){
     
     if (message != 'error') {
       result = JSON.parse(message)
-      readImg(result.source, path)
+      detection(result)
+      //readImg(result.source, path)
     }   
   });
   
 }
 
-function readImg(img, path){  
+function detection(sourceJson){
+
+  numOfCars = sourceJson.numOfCars
+  for (let i = 0; i < numOfCars; i++) {
+    
+    image = sourceJson.img + i + ".jpg"
+    readImg(sourceJson.source, image, i)
+    readChars(image)
+  }
+}
+
+function readImg(img, path, numOfCar){  
   let options = {
-    args: [img, path]
+    args: [img, path, numOfCar]
   };
 
   PythonShell.PythonShell.run('readCams.py', options, function (err) {
     if (err) throw err;    
-  }).on('message', function (message) {
-    
-    if (message != 'error') {
-      result = JSON.parse(message)
-      readChars(result.source, result.img)
-      console.log(result.source + result.img)
-    }
-
+  }).on('message', function (message) {       
+      console.log(message)
   });
  
 }
 
-function readChars(img, path){
+function readChars(img){
   Tesseract.recognize(
-   'imgs/cropped.png',
+   img,
     'eng',
    { logger: m => console.log(m) }
   ).then(({ data: { text } }) => {
