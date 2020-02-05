@@ -9,7 +9,7 @@ Libraries dependancies:
   </ul>
 
   <p>
-    run <code>pip install -r .\requirement.txt --user</code> to install dependancies
+    run <code>pip install -r .\requirement.txt --user</code>  and <code>npm i</code> to install dependancies
  
   </p>
   
