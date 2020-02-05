@@ -1,0 +1,6 @@
+*.h5
+*.MOV
+*.mp4
+src/
+node_modules/
+*.pb
