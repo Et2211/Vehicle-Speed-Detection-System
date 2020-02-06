@@ -5,9 +5,11 @@ import numpy as np
 import cv2
 import imutils
 import os
-dirname = os.path.dirname(__file__)
+import sys
+#dirname = os.path.dirname(__file__)
+dirname = sys.argv[1]
 
-options = {"pbLoad": dirname + "/yolo-plate.pb", "metaLoad": "yolo-plate.meta", "gpu": 0.9}
+options = {"pbLoad": "yolo-plate.pb", "metaLoad": "yolo-plate.meta", "gpu": 0.9}
 yoloPlate = TFNet(options)
 
 options = {"pbLoad": "yolo-character.pb", "metaLoad": "yolo-character.meta", "gpu":0.9}
@@ -55,7 +57,8 @@ while(cap.isOpened()):
                 predictions = yoloPlate.return_predict(frame)
                 firstCropImg = firstCrop(frame, predictions)
                 secondCropImg = secondCrop(firstCropImg)
-                cv2.imshow('Second crop plate',secondCropImg)    
+                cv2.imshow('Second crop plate',secondCropImg)   
+                secondCropImg = cv2.cvtColor(secondCropImg, cv2.COLOR_BGR2GRAY) 
                 
                 if not(os.path.exists(dirname + '/results')) :         
                     os.mkdir(dirname + '/results')      
