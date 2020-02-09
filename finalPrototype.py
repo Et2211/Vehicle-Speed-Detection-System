@@ -6,8 +6,13 @@ import cv2
 import imutils
 import os
 import sys
+import datetime
+datetime.datetime.now()
 #dirname = os.path.dirname(__file__)
 dirname = sys.argv[1]
+
+
+
 
 options = {"pbLoad": "yolo-plate.pb", "metaLoad": "yolo-plate.meta", "gpu": 0.9}
 yoloPlate = TFNet(options)
@@ -71,7 +76,7 @@ while(cap1.isOpened()):
                     os.mkdir(dirname + '/results')      
                         
                 cv2.imwrite(dirname + '/results/result' + str(plateNum) + '.jpg', secondCropImg)
-                rtnJSON = ('{"source": "result' + str(plateNum) + '.jpg", "camera": "1"}')
+                rtnJSON = ('{"source": "/results/result' + str(plateNum) + '.jpg", "camera": "1" , "time": "' + str(datetime.datetime.now()) + '"}')
                 print(rtnJSON)
                 plateNum+=1
             except:
@@ -90,7 +95,7 @@ while(cap1.isOpened()):
                     os.mkdir(dirname + '/results')      
                         
                 cv2.imwrite(dirname + '/results/result' + str(plateNum) + '.jpg', secondCropImg)
-                rtnJSON =('{"source": "result' + str(plateNum) + '.jpg", "camera": "2"}')
+                rtnJSON =('{"source": "/results/result' + str(plateNum) + '.jpg", "camera": "2" , "time": "' + str(datetime.datetime.now()) + '"}')
                 print(rtnJSON)
                 plateNum+=1
             except:

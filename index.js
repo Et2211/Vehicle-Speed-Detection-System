@@ -1,9 +1,10 @@
 let PythonShell = require('python-shell');
 let chokidar = require('chokidar');
 let OCR = require('./OCR.js')
+let Tesseract = require('tesseract.js')
 unmatchedPlates = {
-  camera1: [],
-  camera2: []
+  camera1: {},
+  camera2: {}
 }
 plates = {}
 dir = process.cwd();
@@ -22,33 +23,37 @@ let options = {
   PythonShell.PythonShell.run('finalPrototype.py', options, function (err) {
     if (err) throw err; 
     
-  }).on('message', function (message) { 
+  }).on('message', async function (message) { 
       try{
         result = JSON.parse(message)
-        plate = OCR.readChars(result.source)
         camera = result.camera
-        console.log(plate + " from camera " + camera)
+        time = result.time
+        await readChars(result.source).then(plate => {
+          console.log("the plate is " + plate)
+          console.log(plate + " from camera " + camera + " at " + time)
+        storePlate(plate, camera, time)
+        })
+        //plate = result.source
+        
+        
       }
       catch(e){ 
-        console.log(message)
+        //console.log(e)
+        console.log("this is a catch: " + message)
       }
 
   });
 
-/* chokidar.watch('./results').on('add', async (path, details) => {
-  console.log(path);
-  //plate = (await OCR.readChars(path))
-  //console.log("stuff happened")
-  //storePlate(plate, cam)
-}); */
-
-function storePlate(plate, camera){
+function storePlate(plate, camera, time){
   if (PlateExists()){
-    break;
+    console.log("Plate")
+    console.log(unmatchedPlates)
   }
   
   else{
     unmatchedPlates.camera.append(plate)
+    console.log("no Plate")
+    console.log(unmatchedPlates)
 
   }
 }
@@ -56,5 +61,18 @@ function storePlate(plate, camera){
 function PlateExists(plate){
   if (unmatchedPlates.camera1.includes(plate)) return true
   return false
+}
+
+async function readChars(img){
+  Tesseract.recognize(
+    img,
+    'eng',
+    { logger: m => console.log(m) }
+   ).then(({ data: { text } }) => {
+     text = text.replace(/[^a-zA-Z0-9]/g, '')
+     console.log(text);
+     return text
+     
+   })
 }
 
