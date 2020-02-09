@@ -2,8 +2,8 @@ let PythonShell = require('python-shell');
 let chokidar = require('chokidar');
 let OCR = require('./OCR.js')
 unmatchedPlates = {
-  camera1 = [],
-  camera2 = []
+  camera1: [],
+  camera2: []
 }
 plates = {}
 dir = process.cwd();
@@ -14,21 +14,33 @@ let distance = console.readline() //doesn't work with node!
 console.log(distance) */
 
 let options = {
-    args: [dir]
+    args: [dir],
+    pythonOptions: ['-u'],
+    mode: 'text',
   };
 
-PythonShell.PythonShell.run('finalPrototype.py', options, function (err) {
-    if (err) throw err;    
-  }).on('message', function (message) {       
-      console.log(message)
+  PythonShell.PythonShell.run('finalPrototype.py', options, function (err) {
+    if (err) throw err; 
+    
+  }).on('message', function (message) { 
+      try{
+        result = JSON.parse(message)
+        plate = OCR.readChars(result.source)
+        camera = result.camera
+        console.log(plate + " from camera " + camera)
+      }
+      catch(e){ 
+        console.log(message)
+      }
+
   });
 
-chokidar.watch('./results').on('add', async (path, details) => {
+/* chokidar.watch('./results').on('add', async (path, details) => {
   console.log(path);
-  plate = (await OCR.readChars(path))
-
+  //plate = (await OCR.readChars(path))
+  //console.log("stuff happened")
   //storePlate(plate, cam)
-});
+}); */
 
 function storePlate(plate, camera){
   if (PlateExists()){
@@ -36,15 +48,13 @@ function storePlate(plate, camera){
   }
   
   else{
-    unmatchedPlates.plate
+    unmatchedPlates.camera.append(plate)
 
   }
-  }
-
 }
 
 function PlateExists(plate){
-  if (plate in unmatchedPlates) return true
+  if (unmatchedPlates.camera1.includes(plate)) return true
   return false
 }
 

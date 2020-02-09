@@ -67,10 +67,12 @@ while(cap1.isOpened()):
                 cv2.imshow('Second crop plate',secondCropImg)   
                 secondCropImg = cv2.cvtColor(secondCropImg, cv2.COLOR_BGR2GRAY) 
                 
-                if not(os.path.exists(dirname + '/results')) :         
+                if not(os.path.exists(dirname + '/results')) : 
                     os.mkdir(dirname + '/results')      
                         
                 cv2.imwrite(dirname + '/results/result' + str(plateNum) + '.jpg', secondCropImg)
+                rtnJSON = ('{"source": "result' + str(plateNum) + '.jpg", "camera": "1"}')
+                print(rtnJSON)
                 plateNum+=1
             except:
                 pass
@@ -88,6 +90,8 @@ while(cap1.isOpened()):
                     os.mkdir(dirname + '/results')      
                         
                 cv2.imwrite(dirname + '/results/result' + str(plateNum) + '.jpg', secondCropImg)
+                rtnJSON =('{"source": "result' + str(plateNum) + '.jpg", "camera": "2"}')
+                print(rtnJSON)
                 plateNum+=1
             except:
                 pass
