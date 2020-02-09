@@ -1,13 +1,4 @@
 # License Plate Recognition
-
-Libraries dependancies:
-  <ul>
-  <li>Tensorflow</li>
-  <li>Numpy</li>
-  <li>cv2</li>
-  <li>imutils</li>
-  </ul>
-
   <p>
     run <code>pip install -r .\requirement.txt --user</code> and <code>npm i</code> to install dependancies
   </p>
