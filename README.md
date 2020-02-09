@@ -9,8 +9,7 @@ Libraries dependancies:
   </ul>
 
   <p>
-    run <code>pip install -r .\requirement.txt --user</code>  and <code>npm i</code> to install dependancies
- 
+    run <code>pip install -r .\requirement.txt --user</code> and <code>npm i</code> to install dependancies
   </p>
   
   <p>In Yolo training folder, there are some cfg file, weights, python code used to train our 2 yolos</p>
