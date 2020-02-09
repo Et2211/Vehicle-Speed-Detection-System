@@ -11,9 +11,6 @@ datetime.datetime.now()
 #dirname = os.path.dirname(__file__)
 dirname = sys.argv[1]
 
-
-
-
 options = {"pbLoad": "yolo-plate.pb", "metaLoad": "yolo-plate.meta", "gpu": 0.9}
 yoloPlate = TFNet(options)
 
@@ -51,8 +48,6 @@ def secondCrop(img):
 cap1 = cv2.VideoCapture(0)
 cap2 = cv2.VideoCapture(1)
 counter=0
-
-
 plateNum=0
 
 while(cap1.isOpened()):
@@ -83,7 +78,6 @@ while(cap1.isOpened()):
                 pass
                 #print("no plate in frame")                
         
-
             try:
                 predictions = yoloPlate.return_predict(frame2)
                 firstCropImg = firstCrop(frame2, predictions)
@@ -106,7 +100,6 @@ while(cap1.isOpened()):
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-
     else: 
         cap1.release()
         cv2.destroyAllWindows()
