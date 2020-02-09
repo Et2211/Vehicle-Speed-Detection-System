@@ -15,3 +15,4 @@ async function readChars(img){
 module.exports = {
   readChars : readChars
 }
+
