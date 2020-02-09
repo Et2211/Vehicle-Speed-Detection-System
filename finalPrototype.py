@@ -42,16 +42,23 @@ def secondCrop(img):
         secondCrop = img  
     return secondCrop
 
-#cap = cv2.VideoCapture('testVid1.mp4') //Use for saved videos
-cap = cv2.VideoCapture(0)
+#cap1 = cv2.VideoCapture('testVid1.mp4') //Use for saved videos
+cap1 = cv2.VideoCapture(0)
+cap2 = cv2.VideoCapture(1)
 counter=0
+
+
 plateNum=0
-while(cap.isOpened()):
-    ret, frame = cap.read()
+
+while(cap1.isOpened()):
+    ret, frame = cap1.read()
+    ret2, frame2 = cap2.read()
     if ret:
-        h, w, l = frame.shape
+        #h, w, l = frame.shape
         #frame = imutils.rotate(frame, 20)
         cv2.imshow('frame',frame)
+        cv2.imshow('frame2',frame2)
+
         if counter%15 == 0:       
             try:
                 predictions = yoloPlate.return_predict(frame)
@@ -68,12 +75,33 @@ while(cap.isOpened()):
             except:
                 pass
                 #print("no plate in frame")                
+        
+
+            try:
+                predictions = yoloPlate.return_predict(frame2)
+                firstCropImg = firstCrop(frame2, predictions)
+                secondCropImg = secondCrop(firstCropImg)
+                cv2.imshow('Second crop plate',secondCropImg)   
+                secondCropImg = cv2.cvtColor(secondCropImg, cv2.COLOR_BGR2GRAY) 
+                
+                if not(os.path.exists(dirname + '/results')) :         
+                    os.mkdir(dirname + '/results')      
+                        
+                cv2.imwrite(dirname + '/results/result' + str(plateNum) + '.jpg', secondCropImg)
+                plateNum+=1
+            except:
+                pass
+                #print("no plate in frame")
+        
         counter+=1
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
     else: 
-        cap.release()
+        cap1.release()
         cv2.destroyAllWindows()
+
+   
+    
 
