@@ -10,10 +10,7 @@ async function readChars(img){
      console.log(text);
  
    })
-  
-
 }
-
 module.exports = {
   readChars : readChars
 }
