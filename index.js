@@ -31,14 +31,14 @@ let options = {
         await readChars(result.source).then(plate => {
           console.log("the plate is " + plate)
           console.log(plate + " from camera " + camera + " at " + time)
-        storePlate(plate, camera, time)
+          storePlate(plate, camera, time)
         })
         //plate = result.source
         
         
       }
       catch(e){ 
-        //console.log(e)
+        console.log(e)
         console.log("this is a catch: " + message)
       }
 
@@ -51,28 +51,53 @@ function storePlate(plate, camera, time){
   }
   
   else{
-    unmatchedPlates.camera.append(plate)
+    //unmatchedPlates.camera.append(plate)
     console.log("no Plate")
-    console.log(unmatchedPlates)
+    
+    if (camera == 1) {
+      unmatchedPlates.camera1[plate] = {
+        plate: plate,
+        camera: camera, 
+        time: time
+      }
+      console.log(unmatchedPlates)
+    }
+    
+    else {
+      unmatchedPlates.camera2[plate] = {
+        plate: plate,
+        camera: camera, 
+        time: time
+      }
+      console.log(unmatchedPlates)
+    }
 
   }
 }
 
 function PlateExists(plate){
-  if (unmatchedPlates.camera1.includes(plate)) return true
+  if (unmatchedPlates.camera1.hasOwnProperty(plate) && unmatchedPlates.camera2.hasOwnProperty(plate)) return true
   return false
 }
 
-async function readChars(img){
-  Tesseract.recognize(
-    img,
-    'eng',
-    { logger: m => console.log(m) }
-   ).then(({ data: { text } }) => {
-     text = text.replace(/[^a-zA-Z0-9]/g, '')
-     console.log(text);
-     return text
-     
-   })
+let readChars = function(img) {
+  return new Promise(function(resolve, reject) {
+    Tesseract.recognize(
+      img,
+      'eng',
+      { logger: m => console.log(m) }
+     ).then(({ data: { text } }) => {
+       text = text.replace(/[^a-zA-Z0-9]/g, '')
+       console.log(text);
+       resolve(text);
+    
+  });
+  
 }
+  )
+}
+
+
+
+
 
