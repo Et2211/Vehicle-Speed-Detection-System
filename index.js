@@ -32,17 +32,16 @@ PythonShell.PythonShell.run("finalPrototype.py", options, function (err) {
     });
     //plate = result.source
   } catch (e) {
-    console.log(e);
+    //console.log(e);
     console.log("this is a catch: " + message);
   }
 });
 
 function storePlate(plate, camera, time) {
-  if (PlateExists()) {
+  if (PlateExists(plate)) {
     console.log("Plate");
     console.log(unmatchedPlates);
   } else {
-    //unmatchedPlates.camera.append(plate)
     console.log("no Plate");
 
     if (camera == 1) {
@@ -64,11 +63,16 @@ function storePlate(plate, camera, time) {
 }
 
 function PlateExists(plate) {
-  if (
-    unmatchedPlates.camera1.hasOwnProperty(plate) &&
+  console.log(
+    unmatchedPlates.camera1.hasOwnProperty(plate) ||
     unmatchedPlates.camera2.hasOwnProperty(plate)
   )
+  if (
+    unmatchedPlates.camera1.hasOwnProperty(plate) ||
+    unmatchedPlates.camera2.hasOwnProperty(plate)
+  ) {
     return true;
+  }
   return false;
 }
 
