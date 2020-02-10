@@ -63,10 +63,6 @@ function storePlate(plate, camera, time) {
 }
 
 function PlateExists(plate) {
-  console.log(
-    unmatchedPlates.camera1.hasOwnProperty(plate) ||
-    unmatchedPlates.camera2.hasOwnProperty(plate)
-  )
   if (
     unmatchedPlates.camera1.hasOwnProperty(plate) ||
     unmatchedPlates.camera2.hasOwnProperty(plate)
