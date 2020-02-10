@@ -71,7 +71,7 @@ while(cap1.isOpened()):
                     os.mkdir(dirname + '/results')      
                         
                 cv2.imwrite(dirname + '/results/result' + str(plateNum) + '.jpg', secondCropImg)
-                rtnJSON = ('{"source": "/results/result' + str(plateNum) + '.jpg", "camera": "1" , "time": "' + str(datetime.datetime.now()) + '"}')
+                rtnJSON = ('{"source": "./results/result' + str(plateNum) + '.jpg", "camera": "1" , "time": "' + str(datetime.datetime.now()) + '"}')
                 print(rtnJSON)
                 plateNum+=1
             except:
@@ -89,7 +89,7 @@ while(cap1.isOpened()):
                     os.mkdir(dirname + '/results')      
                         
                 cv2.imwrite(dirname + '/results/result' + str(plateNum) + '.jpg', secondCropImg)
-                rtnJSON =('{"source": "/results/result' + str(plateNum) + '.jpg", "camera": "2" , "time": "' + str(datetime.datetime.now()) + '"}')
+                rtnJSON =('{"source": "./results/result' + str(plateNum) + '.jpg", "camera": "2" , "time": "' + str(datetime.datetime.now()) + '"}')
                 print(rtnJSON)
                 plateNum+=1
             except:
