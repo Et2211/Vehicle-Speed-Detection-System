@@ -41,6 +41,16 @@ function storePlate(plate, camera, time) {
   if (PlateExists(plate)) {
     console.log("Plate");
     console.log(unmatchedPlates);
+
+    let cam = getPlateCamera(plate)
+    //console.log(cam)
+    let plateToMove = unmatchedPlates[cam][plate]
+    console.log("plate to move is: ")
+    console.log(plateToMove)
+
+
+
+
   } else {
     console.log("no Plate");
 
@@ -74,7 +84,9 @@ function PlateExists(plate) {
 
 let readChars = function (img) {
   return new Promise(function (resolve, reject) {
-    Tesseract.recognize(img, "eng", { logger: m => console.log(m) }).then(
+    Tesseract.recognize(img, "eng", 
+    //{ logger: m => console.log(m) }
+    ).then(
       ({ data: { text } }) => {
         text = text.replace(/[^a-zA-Z0-9]/g, "");
         console.log(text);
@@ -83,3 +95,8 @@ let readChars = function (img) {
     );
   });
 };
+
+function getPlateCamera(plate) {
+  if (unmatchedPlates.camera1.hasOwnProperty(plate)) return "camera1"
+  return "camera2"
+}
