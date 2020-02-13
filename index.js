@@ -33,14 +33,34 @@ PythonShell.PythonShell.run("finalPrototype.py", options, function (err) {
     //plate = result.source
   } catch (e) {
     //console.log(e);
-    console.log("this is a catch: " + message);
+    console.log("Python message: " + message);
   }
 });
 
 function storePlate(plate, camera, time) {
   if (PlateExists(plate)) {
-    console.log("Plate");
-    console.log(unmatchedPlates);
+  
+
+    let cam = getPlateCamera(plate) //gets camera where 1st capture of plate is stored in 
+    //console.log(cam)
+
+    if (!(cam == camera)) {
+      let plateToMove = unmatchedPlates["camera" + cam][plate]  
+      plateToMove.time2 = time;
+      plateToMove.timeDifference = Date.parse(plateToMove.time2) - Date.parse(plateToMove.time1)
+      plates[plate] = plateToMove
+      console.log(unmatchedPlates[plate])
+      delete unmatchedPlates["camera" + cam][plate] 
+      
+      console.log("unMatched plates are: ")
+      console.log(unmatchedPlates)
+      console.log("Matched plates are: ")
+      console.log(plates)
+    }
+    else { //Could remove this else for release
+      console.log("Plate already exists in camera" + camera)
+    }
+
   } else {
     console.log("no Plate");
 
@@ -48,14 +68,14 @@ function storePlate(plate, camera, time) {
       unmatchedPlates.camera1[plate] = {
         plate: plate,
         camera: camera,
-        time: time
+        time1: time
       };
       console.log(unmatchedPlates);
     } else {
       unmatchedPlates.camera2[plate] = {
         plate: plate,
         camera: camera,
-        time: time
+        time1: time
       };
       console.log(unmatchedPlates);
     }
@@ -74,12 +94,20 @@ function PlateExists(plate) {
 
 let readChars = function (img) {
   return new Promise(function (resolve, reject) {
-    Tesseract.recognize(img, "eng", { logger: m => console.log(m) }).then(
+    Tesseract.recognize(img, "eng", 
+    //Uncomment to see logger details
+    //{ logger: m => console.log(m) } 
+    ).then(
       ({ data: { text } }) => {
         text = text.replace(/[^a-zA-Z0-9]/g, "");
-        console.log(text);
+        //console.log(text);
         resolve(text);
       }
     );
   });
 };
+
+function getPlateCamera(plate) {
+  if (unmatchedPlates.camera1.hasOwnProperty(plate)) return 1
+  return 2
+}
