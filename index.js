@@ -2,12 +2,13 @@ let PythonShell = require("python-shell");
 let chokidar = require("chokidar");
 let OCR = require("./OCR.js");
 let Tesseract = require("tesseract.js");
-unmatchedPlates = {
+let unmatchedPlates = {
   camera1: {},
   camera2: {}
 };
-plates = {};
-dir = process.cwd();
+let plates = {};
+let dir = process.cwd();
+let id = 0
 
 /* console.log("What distance apart are the cameras in metres?")
 let distance = console.readline() //doesn't work with node!
@@ -48,7 +49,7 @@ function storePlate(plate, camera, time) {
       let plateToMove = unmatchedPlates["camera" + cam][plate]  
       plateToMove.time2 = time;
       plateToMove.timeDifference = Date.parse(plateToMove.time2) - Date.parse(plateToMove.time1)
-      plates[plate] = plateToMove
+      plates[id] = plateToMove
       console.log(unmatchedPlates[plate])
       delete unmatchedPlates["camera" + cam][plate] 
       
@@ -56,6 +57,7 @@ function storePlate(plate, camera, time) {
       console.log(unmatchedPlates)
       console.log("Matched plates are: ")
       console.log(plates)
+      id++
     }
     else { //Could remove this else for release
       console.log("Plate already exists in camera" + camera)
