@@ -8,22 +8,18 @@ let unmatchedPlates = {
   camera1: {},
   camera2: {}
 };
-let plates = {};
 let dir = process.cwd();
 let id = 0
 const dbName = 'Plates'
 let db
 let distance = 100 //in metres
-
-/* console.log("What distance apart are the cameras in metres?")
-let distance = console.readline() //doesn't work with node!
-console.log(distance) */
-
 let options = {
   args: [dir],
   pythonOptions: ["-u"],
   mode: "text"
 };
+
+connectToDB()
 
 PythonShell.PythonShell.run("finalPrototype.py", options, function (err) {
   if (err) throw err;
@@ -33,12 +29,11 @@ PythonShell.PythonShell.run("finalPrototype.py", options, function (err) {
     camera = result.camera;
     time = result.time;
     await readChars(result.source).then(plate => {
-      console.log(plate + " from camera " + camera + " at " + time);
       storePlate(plate, camera, time);
     });
     //plate = result.source
   } catch (e) {
-    console.log(e);
+    //console.log(e);
     console.log("Python message: " + message);
   }
 });
@@ -55,14 +50,8 @@ function storePlate(plate, camera, time) {
       plateToMove.time2 = time;
       plateToMove.timeDifference = Date.parse(plateToMove.time2) - Date.parse(plateToMove.time1)
       plateToMove.speed = calcSpeed(plateToMove.timeDifference)
-      plates[id] = plateToMove
       addtoDB(plateToMove)
       delete unmatchedPlates["camera" + cam][plate] 
-      
-      console.log("unMatched plates are: ")
-      console.log(unmatchedPlates)
-      console.log("Matched plates are: ")
-      console.log(plates)
       id++
     }
     else { //Could remove this else for release
@@ -121,8 +110,6 @@ function getPlateCamera(plate) {
 }
 
 function connectToDB(){
-  
-
   MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
     if (err) return console.log(err)
 
@@ -147,10 +134,10 @@ function addtoDB(platetoStore) {
   let timeDifference = platetoStore.timeDifference
   let speed = platetoStore.speed
   
-  connectToDB()
+  //connectToDB()
   const collection = db.collection('plates');
   // Insert some documents
-  collection.insert(
+  collection.insertOne(
     {
       plate : plate,
       time1 : time1,
