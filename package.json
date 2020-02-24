@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "@dashevo/x11-hash-js": "^1.0.2",
     "@types/tesseract.js": "0.0.2",
     "chokidar": "^3.3.1",
     "connect": "^3.7.0",
