@@ -1,12 +1,8 @@
 let PythonShell = require("python-shell");
-let chokidar = require("chokidar");
 let OCR = require("./OCR.js");
-let Tesseract = require("tesseract.js");
 let MongoClient = require('mongodb').MongoClient
-let x11 = require('@dashevo/x11-hash-js');
 const url = 'mongodb://127.0.0.1:27017'
 let dir = process.cwd();
-let id = 0
 const dbName = 'Plates'
 let db
 let distance = 100 //in metres
@@ -29,7 +25,7 @@ PythonShell.PythonShell.run("finalPrototype.py", options, function(err) {
         result = JSON.parse(message);
         camera = result.camera;
         time = result.time;
-        await readChars(result.source).then(plate => {
+        await OCR.readChars(result.source).then(plate => {
             storePlate(plate, camera, time);
         });
         //plate = result.source
@@ -53,7 +49,7 @@ function storePlate(plate, camera, time) {
             plateToMove.speed = calcSpeed(plateToMove.timeDifference)
             addtoDB(plateToMove)
             delete unmatchedPlates["camera" + cam][plate]
-            id++
+            
         } else { //Could remove this else for release
             console.log("Plate already exists in camera" + camera)
         }
@@ -88,25 +84,6 @@ function PlateExists(plate) {
     }
     return false;
 }
-
-let readChars = function(img) {
-    return new Promise(function(resolve, reject) {
-        Tesseract.recognize(img, "eng",
-            //Uncomment to see logger details
-            //{ logger: m => console.log(m) } 
-        ).then(
-            ({
-                data: {
-                    text
-                }
-            }) => {
-                text = text.replace(/[^a-zA-Z0-9]/g, "");
-                text = x11.digest(text) //Hash algorithm for the plate
-                resolve(text);
-            }
-        );
-    });
-};
 
 function getPlateCamera(plate) {
     if (unmatchedPlates.camera1.hasOwnProperty(plate)) return 1
