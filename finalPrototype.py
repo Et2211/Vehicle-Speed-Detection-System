@@ -44,9 +44,11 @@ def secondCrop(img):
         secondCrop = img  
     return secondCrop
 
-#cap1 = cv2.VideoCapture('testVid1.mp4') //Use for saved videos
-cap1 = cv2.VideoCapture(0)
-cap2 = cv2.VideoCapture(1)
+cap1 = cv2.VideoCapture('./testVids/test (4).mp4')
+cap2 = cv2.VideoCapture('./testVids/test (5).mp4')
+
+#cap1 = cv2.VideoCapture(0)
+#cap2 = cv2.VideoCapture(1)
 counter=0
 plateNum=0
 
@@ -56,8 +58,10 @@ while(cap1.isOpened()):
     if ret:
         #h, w, l = frame.shape
         #frame = imutils.rotate(frame, 20)
-        cv2.imshow('frame',frame)
-        cv2.imshow('frame2',frame2)
+        framed = cv2.resize(frame, (500, 500))
+        framed2 = cv2.resize(frame2, (500, 500))
+        cv2.imshow('frame',framed)
+        cv2.imshow('frame2',framed2)
 
         if counter%15 == 0:       
             try:
@@ -100,9 +104,7 @@ while(cap1.isOpened()):
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-    else: 
-        cap1.release()
-        cv2.destroyAllWindows()
+    
 
    
     

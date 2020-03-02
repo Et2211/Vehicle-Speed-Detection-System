@@ -13,7 +13,7 @@ let readChars = async function(img) {
               }
           }) => {
               text = text.replace(/[^a-zA-Z0-9]/g, "");
-              text = x11.digest(text) //Hash algorithm for the plate
+              //text = x11.digest(text) //Hash algorithm for the plate
               console.log(text)
               resolve(text);
           }
