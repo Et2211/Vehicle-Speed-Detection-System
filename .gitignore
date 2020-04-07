@@ -5,5 +5,5 @@ src/
 node_modules/
 *.pb
 *.jpg
-node_modules
+
 testVids
