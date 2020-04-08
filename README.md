@@ -1,6 +1,6 @@
 # License Plate Recognition
   <p>
-    run <code>pip install -r .\requirement.txt --user</code> and <code>npm i</code> to install dependancies
+    run <code>pip install -r .\requirement.txt --user</code> and <code>npm i</code> to install dependancies (You must have a Pip version of 19.0 and above, or the installation will fail)
   </p>
   
   <p>In Yolo training folder, there are some cfg file, weights, python code used to train the 2 yolos</p>
