@@ -8,16 +8,10 @@ import os
 import sys
 import datetime
 datetime.datetime.now()
-#dirname = os.path.dirname(__file__)
 dirname = sys.argv[1]
 
-options = {"pbLoad": "yolo-plate.pb", "metaLoad": "yolo-plate.meta", "gpu": 0.9}
+options = {"pbLoad": "yolo-plate.pb", "metaLoad": "yolo-plate.meta", "cpu": 1.0}
 yoloPlate = TFNet(options)
-
-options = {"pbLoad": "yolo-character.pb", "metaLoad": "yolo-character.meta", "gpu":0.9}
-yoloCharacter = TFNet(options)
-
-characterRecognition = tf.keras.models.load_model('character_recognition.h5')
 
 def firstCrop(img, predictions):
     predictions.sort(key=lambda x: x.get('confidence'))
@@ -80,7 +74,7 @@ while(cap1.isOpened()):
                 plateNum+=1
             except:
                 pass
-                #print("no plate in frame")                
+                #no plate in frame             
         
             try:
                 predictions = yoloPlate.return_predict(frame2)
@@ -98,7 +92,7 @@ while(cap1.isOpened()):
                 plateNum+=1
             except:
                 pass
-                #print("no plate in frame")
+                #no plate in frame
         
         counter+=1
 
