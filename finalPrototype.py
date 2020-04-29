@@ -38,8 +38,8 @@ def secondCrop(img):
         secondCrop = img  
     return secondCrop
 
-cap1 = cv2.VideoCapture('./testVids/test (4).mp4')
-cap2 = cv2.VideoCapture('./testVids/test (5).mp4')
+cap1 = cv2.VideoCapture(0)
+cap2 = cv2.VideoCapture(1)
 
 #cap1 = cv2.VideoCapture(0)
 #cap2 = cv2.VideoCapture(1)
