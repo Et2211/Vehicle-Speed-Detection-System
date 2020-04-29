@@ -50,7 +50,7 @@ function storePlate(plate, camera, time) {
             addtoDB(plateToMove)
             delete unmatchedPlates["camera" + cam][plate]
             
-        } else { //Could remove this else for release
+        } else { //remove this else for release
             console.log("Plate already exists in camera" + camera)
         }
 
@@ -108,8 +108,6 @@ function calcSpeed(time) {
 }
 
 function addtoDB(platetoStore) {
-    console.log("plate to add to DB:")
-    console.log(platetoStore)
 
     const collection = db.collection('plates');
     collection.insertOne({
