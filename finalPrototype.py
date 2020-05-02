@@ -39,7 +39,13 @@ def secondCrop(img):
     return secondCrop
 
 cap1 = cv2.VideoCapture(0)
-cap2 = cv2.VideoCapture(1)
+cap2 = cv2.VideoCapture(2)
+
+cap1.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+cap2.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+
+cap1.set(28, 25) 
+cap2.set(28, 25) 
 
 #cap1 = cv2.VideoCapture(0)
 #cap2 = cv2.VideoCapture(1)
@@ -49,11 +55,13 @@ plateNum=0
 while(cap1.isOpened()):
     ret, frame = cap1.read()
     ret2, frame2 = cap2.read()
+
     if ret:
         #h, w, l = frame.shape
-        #frame = imutils.rotate(frame, 20)
-        framed = cv2.resize(frame, (500, 500))
-        framed2 = cv2.resize(frame2, (500, 500))
+        frame = imutils.rotate(frame, 355)
+        frame2 = imutils.rotate(frame2, 355)
+        framed = cv2.resize(frame, (960, 540))
+        framed2 = cv2.resize(frame2, (960, 540))
         cv2.imshow('frame',framed)
         cv2.imshow('frame2',framed2)
 

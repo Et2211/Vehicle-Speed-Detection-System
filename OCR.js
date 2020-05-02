@@ -12,7 +12,7 @@ let readChars = async function(img) {
                   text
               }
           }) => {
-              text = text.replace(/[^a-zA-Z0-9]/g, "");
+              text = text.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
               //text = x11.digest(text) //Hash algorithm for the plate
               console.log(text)
               resolve(text);
