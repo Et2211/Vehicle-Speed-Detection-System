@@ -10,7 +10,7 @@ import datetime
 datetime.datetime.now()
 dirname = sys.argv[1]
 
-options = {"pbLoad": "yolo-plate.pb", "metaLoad": "yolo-plate.meta", "cpu": 1.0}
+options = {"pbLoad": "yolo-plate.pb", "metaLoad": "yolo-plate.meta", "gpu": 1.0}
 yoloPlate = TFNet(options)
 
 def firstCrop(img, predictions):
