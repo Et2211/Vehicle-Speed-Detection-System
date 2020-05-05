@@ -4,8 +4,8 @@ let db = require("./DBinterface.js");
 let dir = process.cwd();
 let distance = 100 //in metres
 let unmatchedPlates = {
-  camera1: {},
-  camera2: {}
+    camera1: {},
+    camera2: {}
 };
 let options = {
     args: [dir],
@@ -23,7 +23,7 @@ PythonShell.PythonShell.run("finalPrototype.py", options, function(err) {
         camera = result.camera;
         time = result.time;
         await OCR.readChars(result.source).then(plate => {
-            if (plate != ""){
+            if (plate != "") {
                 storePlate(plate, camera, time);
             }
         });
@@ -48,7 +48,7 @@ function storePlate(plate, camera, time) {
             plateToMove.speed = calcSpeed(plateToMove.timeDifference)
             db.addtoDB(plateToMove)
             delete unmatchedPlates["camera" + cam][plate]
-            
+
         } else { //remove this else for release
             console.log("Plate already exists in camera" + camera)
         }
