@@ -50,61 +50,66 @@ cap2.set(28, 25)
 counter=0
 plateNum=0
 
-while(cap1.isOpened()):
+while(cap1.isOpened() and cap2.isOpened()):
     ret, frame = cap1.read()
     ret2, frame2 = cap2.read()
 
-    if ret:
-        
-        framed = cv2.resize(frame, (960, 540))
-        framed2 = cv2.resize(frame2, (960, 540))
-        
-        cv2.imshow('frame',framed)
-        cv2.imshow('frame2',framed2)
-
-        if counter%15 == 0:       
-            try:
-                predictions = yoloPlate.return_predict(frame)
-                firstCropImg = firstCrop(frame, predictions)
-                secondCropImg = secondCrop(firstCropImg)
-                cv2.imshow('Second crop plate',secondCropImg)   
-                secondCropImg = cv2.cvtColor(secondCropImg, cv2.COLOR_BGR2GRAY) 
-                
-                if not(os.path.exists(dirname + '/results')) : 
-                    os.mkdir(dirname + '/results')      
-                        
-                cv2.imwrite(dirname + '/results/result' + str(plateNum) + '.jpg', secondCropImg)
-                rtnJSON = ('{"source": "./results/result' + str(plateNum) + '.jpg", "camera": "1" , "time": "' + str(datetime.datetime.now()) + '"}')
-                print(rtnJSON)
-                plateNum+=1
-            except:
-                pass
-                #no plate in frame             
-        
-            try:
-                predictions = yoloPlate.return_predict(frame2)
-                firstCropImg = firstCrop(frame2, predictions)
-                secondCropImg = secondCrop(firstCropImg)
-                cv2.imshow('Second crop plate',secondCropImg)   
-                secondCropImg = cv2.cvtColor(secondCropImg, cv2.COLOR_BGR2GRAY) 
-                
-                if not(os.path.exists(dirname + '/results')) :         
-                    os.mkdir(dirname + '/results')      
-                        
-                cv2.imwrite(dirname + '/results/result' + str(plateNum) + '.jpg', secondCropImg)
-                rtnJSON =('{"source": "./results/result' + str(plateNum) + '.jpg", "camera": "2" , "time": "' + str(datetime.datetime.now()) + '"}')
-                print(rtnJSON)
-                plateNum+=1
-            except:
-                pass
-                #no plate in frame
-        
-        counter+=1
-
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
     
+    try:
+        
+            framed = cv2.resize(frame, (960, 540))
+            framed2 = cv2.resize(frame2, (960, 540))
 
+            cv2.imshow('frame',framed)
+            cv2.imshow('frame2',framed2)
+
+            if counter%15 == 0:       
+                try:
+                    predictions = yoloPlate.return_predict(frame)
+                    firstCropImg = firstCrop(frame, predictions)
+                    secondCropImg = secondCrop(firstCropImg)
+                    cv2.imshow('Second crop plate',secondCropImg)   
+                    secondCropImg = cv2.cvtColor(secondCropImg, cv2.COLOR_BGR2GRAY) 
+
+                    if not(os.path.exists(dirname + '/results')) : 
+                        os.mkdir(dirname + '/results')      
+
+                    cv2.imwrite(dirname + '/results/result' + str(plateNum) + '.jpg', secondCropImg)
+                    rtnJSON = ('{"source": "./results/result' + str(plateNum) + '.jpg", "camera": "1" , "time": "' + str(datetime.datetime.now()) + '"}')
+                    print(rtnJSON)
+                    plateNum+=1
+                except:
+                    pass
+                    #no plate in frame             
+
+                try:
+                    predictions = yoloPlate.return_predict(frame2)
+                    firstCropImg = firstCrop(frame2, predictions)
+                    secondCropImg = secondCrop(firstCropImg)
+                    cv2.imshow('Second crop plate',secondCropImg)   
+                    secondCropImg = cv2.cvtColor(secondCropImg, cv2.COLOR_BGR2GRAY) 
+
+                    if not(os.path.exists(dirname + '/results')) :         
+                        os.mkdir(dirname + '/results')      
+
+                    cv2.imwrite(dirname + '/results/result' + str(plateNum) + '.jpg', secondCropImg)
+                    rtnJSON =('{"source": "./results/result' + str(plateNum) + '.jpg", "camera": "2" , "time": "' + str(datetime.datetime.now()) + '"}')
+                    print(rtnJSON)
+                    plateNum+=1
+                except:
+                    pass
+                    #no plate in frame
+
+            counter+=1
+
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+    
+    except: 
+        print("Camera disconnected, please reconnect and run the system again")
+        break
+else: 
+    print("Two cameras are not detected, please connect and try again. You may have to close and reopen your terminal window.")
    
     
 

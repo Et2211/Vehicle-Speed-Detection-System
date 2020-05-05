@@ -28,16 +28,16 @@ PythonShell.PythonShell.run("finalPrototype.py", options, function(err) {
             }
         });
     } catch (e) {
-        console.log("Python message: " + message);
+        //console.log(e)
+        console.log(message);
     }
-});
+}).on("close", () => process.exit()); //Exit the Node program if Python Exits 
 
 function storePlate(plate, camera, time) {
     if (PlateExists(plate)) {
 
 
         let cam = getPlateCamera(plate) //gets camera where 1st capture of plate is stored in 
-        //console.log(cam)
 
         if (!(cam == camera)) {
             let plateToMove = unmatchedPlates["camera" + cam][plate]
@@ -47,7 +47,7 @@ function storePlate(plate, camera, time) {
             db.addtoDB(plateToMove)
             delete unmatchedPlates["camera" + cam][plate]
 
-        } else { //remove this else for release
+        } else {
             console.log("Plate already exists in camera" + camera)
         }
 
