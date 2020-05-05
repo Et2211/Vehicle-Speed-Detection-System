@@ -1,10 +1,7 @@
 let PythonShell = require("python-shell");
 let OCR = require("./OCR.js");
-let MongoClient = require('mongodb').MongoClient
-const url = 'mongodb://127.0.0.1:27017'
+let db = require("./DBinterface.js");
 let dir = process.cwd();
-const dbName = 'Plates'
-let db
 let distance = 100 //in metres
 let unmatchedPlates = {
   camera1: {},
@@ -16,7 +13,7 @@ let options = {
     mode: "text"
 };
 
-connectToDB()
+db.connectToDB()
 
 PythonShell.PythonShell.run("finalPrototype.py", options, function(err) {
     if (err) throw err;
@@ -26,7 +23,9 @@ PythonShell.PythonShell.run("finalPrototype.py", options, function(err) {
         camera = result.camera;
         time = result.time;
         await OCR.readChars(result.source).then(plate => {
-            storePlate(plate, camera, time);
+            if (plate != ""){
+                storePlate(plate, camera, time);
+            }
         });
         //plate = result.source
     } catch (e) {
@@ -47,7 +46,7 @@ function storePlate(plate, camera, time) {
             plateToMove.time2 = time;
             plateToMove.timeDifference = Date.parse(plateToMove.time2) - Date.parse(plateToMove.time1)
             plateToMove.speed = calcSpeed(plateToMove.timeDifference)
-            addtoDB(plateToMove)
+            db.addtoDB(plateToMove)
             delete unmatchedPlates["camera" + cam][plate]
             
         } else { //remove this else for release
@@ -90,34 +89,6 @@ function getPlateCamera(plate) {
     return 2
 }
 
-function connectToDB() {
-    MongoClient.connect(url, {
-        useNewUrlParser: true
-    }, (err, client) => {
-        if (err) return console.log(err)
-
-        // Storing a reference to the database so you can use it later
-        db = client.db(dbName)
-        console.log(`Connected MongoDB: ${url}`)
-        console.log(`Database: ${dbName}`)
-    })
-}
-
 function calcSpeed(time) {
     return (distance / time) * 2236.94 //converts to mph
-}
-
-function addtoDB(platetoStore) {
-
-    const collection = db.collection('plates');
-    collection.insertOne({
-        plate: platetoStore.plate,
-        time1: platetoStore.time1,
-        time2: platetoStore.time2,
-        timeDifference: platetoStore.timeDifference,
-        speed: platetoStore.speed
-    }, function(err, result) {
-        if (err) console.log(err)
-        console.log("Inserted plate into the collection");
-    });
 }
