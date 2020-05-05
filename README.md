@@ -1,4 +1,4 @@
-# Speed Detection System
+# Vehicle Speed Detection System
   <p>
     Run <code>bash install.sh</code> to install dependancies. You must have Node V10 and above, Pip version of 19.0 and above and run with admin rights or the installation will fail
   </p>
