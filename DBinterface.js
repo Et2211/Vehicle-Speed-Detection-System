@@ -31,6 +31,6 @@ function addtoDB(platetoStore) {
     });
 }
 module.exports = {
-    addtoDB : addtoDB,
-    connectToDB : connectToDB
-  }
+    addtoDB: addtoDB,
+    connectToDB: connectToDB
+}
