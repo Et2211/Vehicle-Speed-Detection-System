@@ -27,9 +27,7 @@ PythonShell.PythonShell.run("finalPrototype.py", options, function(err) {
                 storePlate(plate, camera, time);
             }
         });
-        //plate = result.source
     } catch (e) {
-        //console.log(e);
         console.log("Python message: " + message);
     }
 });
