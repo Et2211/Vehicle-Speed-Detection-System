@@ -1,7 +1,6 @@
 let Tesseract = require('tesseract.js')
-let x11 = require('@dashevo/x11-hash-js');
 
-Object.defineProperty(String.prototype, 'hashCode', {
+Object.defineProperty(String.prototype, 'hash', {
     value: function() {
       var hash = 0, i, chr;
       for (i = 0; i < this.length; i++) {
@@ -16,7 +15,7 @@ Object.defineProperty(String.prototype, 'hashCode', {
 let readChars = async function(img) {
   return new Promise(function(resolve, reject) {
       Tesseract.recognize(img, "eng",
-          //Uncomment to see logger details
+          //Uncomment to see OCR logger details
           //{ logger: m => console.log(m) } 
       ).then(
           ({
@@ -25,7 +24,6 @@ let readChars = async function(img) {
               }
           }) => {
               text = text.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
-              //text = x11.digest(text) //Hash algorithm for the plate
               text = text.hash()
               console.log(text)
               resolve(text);
