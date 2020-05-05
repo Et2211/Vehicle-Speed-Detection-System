@@ -15,7 +15,7 @@ let options = {
 
 db.connectToDB()
 
-PythonShell.PythonShell.run("finalPrototype.py", options, function(err) {
+PythonShell.PythonShell.run("plateDetection.py", options, function(err) {
     if (err) throw err;
 }).on("message", async function(message) {
     try {
