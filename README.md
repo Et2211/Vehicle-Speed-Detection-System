@@ -1,9 +1,7 @@
 # License Plate Recognition
   <p>
-    run <code>pip install -r .\requirement.txt --user</code> and <code>npm i</code> to install dependancies (You must have a Pip version of 19.0 and above, or the installation will fail)
+    run <code>bash install.sh</code> to install dependancies. You must have Node V10 and above, Pip version of 19.0 and above and run with admin rights or the installation will fail
   </p>
-  
-  <p>In Yolo training folder, there are some cfg file, weights, python code used to train the 2 yolos</p>
-  <p>In CNN training folder, there is the python code used to train the CNN for character recognition</p>
-  <p>You can donwload pb files, yolo.weights and datasets here (Over 100mb, so can't store on Github): https://drive.google.com/drive/folders/17gxw7tv7jy3KgJFhQiHX0IilYObFbIJp?usp=sharing </p>
+  <p>yolo.plates.pb is over 100mb so cannot be uploaded to Github. You can download it here, and place it in the top level folder/directory.</p>
+  <p>https://drive.google.com/drive/folders/1_Q-uFLJJ9VAFUwwso9nmL3_bJI4GGm-g?usp=sharing</p>
    
