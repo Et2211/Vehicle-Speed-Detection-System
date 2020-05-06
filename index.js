@@ -15,6 +15,7 @@ let options = {
 
 db.connectToDB()
 
+//Start the Python plate detection process
 PythonShell.PythonShell.run("plateDetection.py", options, function(err) {
     if (err) throw err;
 }).on("message", async function(message) {
@@ -23,12 +24,11 @@ PythonShell.PythonShell.run("plateDetection.py", options, function(err) {
         camera = result.camera;
         time = result.time;
         await OCR.readChars(result.source).then(plate => {
-            if (plate != "") {
+            if (plate != "0") { //Don't run for the hash of an empty string
                 storePlate(plate, camera, time);
             }
         });
     } catch (e) {
-        //console.log(e)
         console.log(message);
     }
 }).on("close", () => process.exit()); //Exit the Node program if Python Exits 
@@ -37,9 +37,10 @@ function storePlate(plate, camera, time) {
     if (PlateExists(plate)) {
 
 
-        let cam = getPlateCamera(plate) //gets camera where 1st capture of plate is stored in 
+        let cam = getPlateCamera(plate) //Return which camera previously captured this plate
 
-        if (!(cam == camera)) {
+        //If it is not the same camera, match the plate
+        if (!(cam == camera)) { 
             let plateToMove = unmatchedPlates["camera" + cam][plate]
             plateToMove.time2 = time;
             plateToMove.timeDifference = Date.parse(plateToMove.time2) - Date.parse(plateToMove.time1)
@@ -51,8 +52,7 @@ function storePlate(plate, camera, time) {
             console.log("Plate already exists in camera" + camera)
         }
 
-    } else {
-        console.log("no Plate");
+    } else { //Plate does not currently exist in unmatchedPlates 
 
         if (camera == 1) {
             unmatchedPlates.camera1[plate] = {

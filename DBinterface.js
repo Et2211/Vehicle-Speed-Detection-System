@@ -3,6 +3,7 @@ const url = 'mongodb://127.0.0.1:27017'
 const dbName = 'Plates'
 let db
 
+//Connect to the database
 function connectToDB() {
     MongoClient.connect(url, {
         useNewUrlParser: true
@@ -16,6 +17,7 @@ function connectToDB() {
     })
 }
 
+//Add a plate to the database
 function addtoDB(platetoStore) {
 
     const collection = db.collection('plates');

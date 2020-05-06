@@ -1,5 +1,6 @@
 let Tesseract = require('tesseract.js')
 
+//Hashing function
 Object.defineProperty(String.prototype, 'hash', {
     value: function() {
       var hash = 0, i, chr;
@@ -24,7 +25,7 @@ let readChars = async function(img) {
               }
           }) => {
               text = text.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
-              text = text.hash()
+              text = text.hash() //Hash the returned plate
               console.log(text)
               resolve(text);
           }
